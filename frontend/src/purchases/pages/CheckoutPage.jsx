@@ -52,6 +52,8 @@ function CheckoutPage() {
         userId,
         tickets: ticketsData,
       });
+      const orderid = response.purchase._id;
+      navigate(`/orderconfirm/${orderid}`);
     } catch (error) {
       console.error("order submission failed: ", error.message);
     }
