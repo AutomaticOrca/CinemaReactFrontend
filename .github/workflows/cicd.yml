@@ -1,4 +1,4 @@
-name: Deploy Node Application
+name: Deploy React Vite Application
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t integrationninjas/reactjs-app --build-arg REACT_APP_NODE_ENV='production' --build-arg REACT_APP_SERVER_BASE_URL='${{ secrets.REACT_APP_SERVER_BASE_URL }}'  .
+        run: docker build -t automaticorca/cinema-frontend --build-arg VITE_APP_NODE_ENV='production' --build-arg VITE_APP_SERVER_BASE_URL='${{ secrets.VITE_APP_SERVER_BASE_URL }}'  .
       - name: Publish Image to docker hub
         run: docker push automaticorca/cinema-frontend:latest
 

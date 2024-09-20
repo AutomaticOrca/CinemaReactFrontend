@@ -23,7 +23,15 @@ const App = () => {
   const ProtectedRoute = ({ element: Component, ...rest }) => {
     return token ? <Component {...rest} /> : <Navigate to="/auth" />;
   };
-
+  // console.log("import.meta.env:", import.meta.env);
+  console.log(
+    "import.meta.env.REACT_APP_NODE_ENV:",
+    import.meta.env.REACT_APP_NODE_ENV
+  );
+  console.log(
+    "import.meta.env.REACT_APP_SERVER_BASE_URL:",
+    import.meta.env.REACT_APP_SERVER_BASE_URL
+  );
   return (
     <AuthContext.Provider
       value={{
