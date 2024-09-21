@@ -22,9 +22,11 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Stop and remove old container
+        run: |
+          docker stop cinema-frontend-container || true
+          docker rm cinema-frontend-container || true
       - name: Pull image from docker hub
         run: docker pull automaticorca/cinema-frontend:latest
-      - name: Delete old container
-        run: docker rm -f cinema-frontend-container
       - name: Run Docker Container
         run: docker run -d -p 5173:80 --name cinema-frontend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' automaticorca/cinema-frontend
