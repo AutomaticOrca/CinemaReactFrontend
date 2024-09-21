@@ -14,7 +14,7 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t automaticorca/cinema-frontend --build-arg VITE_APP_NODE_ENV='production' --build-arg VITE_APP_SERVER_BASE_URL='${{ secrets.VITE_APP_SERVER_BASE_URL }}'  .
+        run: docker build -t automaticorca/cinema-frontend --build-arg VITE_APP_NODE_ENV='production' --build-arg VITE_APP_SERVER_BASE_URL='http://ec2-13-54-7-53.ap-southeast-2.compute.amazonaws.com:5005/api'  .
       - name: Publish Image to docker hub
         run: docker push automaticorca/cinema-frontend:latest
 
