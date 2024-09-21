@@ -11,6 +11,7 @@ function NowShowingPage() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
+        console.log(`${API_URL}/sessions/nowshowing`);
         const response = await axios.get(`${API_URL}/sessions/nowshowing`);
         setSessions(response.data.sessions);
       } catch (err) {
