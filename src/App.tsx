@@ -1,34 +1,37 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import CommonLayout from "./shared/components/CommonLayout";
+import HomePage from "./home/pages/HomePage";
+import AuthPage from "./users/pages/AuthPage";
+import NowShowingPage from "./nowshowing/pages/NowShowingPage";
+import SessionPage from "./session/pages/SessionPage";
+import PurchasePage from "./orders/pages/PurchasePage";
+import OrderConfirmPage from "./orders/pages/OrderConfirmPage";
+import CinemasPage from "./cinemas/pages/CinemasPage";
+import MoviePage from "./movies/pages/MoviePage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="text-3xl font-bold ">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <CommonLayout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/nowshowing" element={<NowShowingPage />} />
+          <Route path="/session/:sessionid" element={<SessionPage />} />
+          <Route path="/purchase/:sessionid" element={<PurchasePage />} />
+          <Route path="/order/:orderid" element={<OrderConfirmPage />} />
+          <Route path="/cinemas" element={<CinemasPage />} />
+          <Route path="/movie/:movieid" element={<MoviePage />} />
+        </Routes>
+      </CommonLayout>
+    </Router>
   );
 }
 
