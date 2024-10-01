@@ -5,13 +5,34 @@ import { Link, useLocation } from "react-router-dom";
 
 import NavLink from "./NavLink";
 
-const CommonLayout = ({ children }) => {
+interface CommonLayoutProps {
+  children: React.ReactNode;
+}
+
+const CommonLayout = ({ children }: CommonLayoutProps) => {
   // const auth = useContext(AuthContext);
   const location = useLocation();
   // const isNowShowingPage = location.pathname === "/nowshowing";
   return (
-    <div className="bg-creamy w-screen">
-      <header></header>
+    <div className="bg-creamy w-screen min-h-screen flex flex-col justify-between">
+      <header>
+        <div className="bg-ritzHeaderPink flex justify-end p-3"></div>
+        <nav className="flex items-center justify-between m-2 p-4 mx-auto max-w-full">
+          <div className="flex  items-center  gap-4">
+            <Link
+              to="/"
+              className="mr-4 font-playwrite text-3xl transition-colors duration-300 text-slate-950 hover:text-warmGold px-2 py-1 rounded"
+            >
+              Paradiso
+            </Link>
+            <NavLink to="/nowshowing">Now Showing</NavLink>
+            <NavLink to="/cinemas">Cinemas</NavLink>
+          </div>
+
+          <NavLink to="/auth">Sign In / Register</NavLink>
+        </nav>
+        <div className="border-t-4 border-ritzHeaderPink"></div>
+      </header>
       <main>{children}</main>
       <footer>&copy; Copyright 2024 Cinema Paradiso</footer>
     </div>
