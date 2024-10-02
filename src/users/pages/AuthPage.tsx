@@ -18,6 +18,14 @@ function AuthPage() {
 
   const navigate = useNavigate();
 
+  const navigateToPreviousOrHome = () => {
+    if (window.history.length > 1) {
+      navigate(-1); // Go back if there is a history
+    } else {
+      navigate("/"); // Go to homepage if no history
+    }
+  };
+
   const handleLogin = async (email: string, password: string) => {
     setIsSubmitting(true);
     setErrorMessage(null);
@@ -39,7 +47,7 @@ function AuthPage() {
 
       setSuccessMessage("Login successful! Redirecting...");
       setTimeout(() => {
-        navigate(-1);
+        navigateToPreviousOrHome();
       }, 3000);
     } catch (error: unknown) {
       if (
@@ -74,7 +82,7 @@ function AuthPage() {
       auth.login(userId, token);
       setSuccessMessage("Welcome! Redirecting...");
       setTimeout(() => {
-        navigate(-1);
+        navigateToPreviousOrHome();
       }, 2000);
     } catch (error: unknown) {
       if (
