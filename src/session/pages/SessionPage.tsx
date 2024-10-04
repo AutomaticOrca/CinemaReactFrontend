@@ -1,66 +1,30 @@
-import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-import {
-  fetchSessionById,
-  fetchMovieById,
-  fetchCinemaById,
-} from "../../shared/utils/api";
-
-import {
-  formatDate,
-  convertMinutesToHours,
-  calculateEndTime,
-} from "../../shared/utils/timeUtils";
-
-import { Session, Movie, Cinema } from "../../shared/Models";
+import useFetchSessionApi from "../../shared/hooks/useFetchSessionApi";
 import ErrorMessage from "../../shared/components/ErrorMessage";
 import Loading from "../../shared/components/Loading";
 function SessionPage() {
   const { sessionid } = useParams();
-  const [session, setSession] = useState<Session | null>(null);
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [cinema, setCinema] = useState<Cinema | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const {
+    session,
+    movie,
+    cinema,
+    formattedTime,
+    movieEndTime,
+    formattedMovieDuration,
+    error,
+    isLoading,
+  } = useFetchSessionApi(sessionid || "");
 
   const handleClickBookTickets = () => {
     navigate(`/purchase/${sessionid}`);
   };
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      if (sessionid) {
-        try {
-          setIsLoading(true);
-          const sessionData = await fetchSessionById(sessionid);
-          const { movieId, cinemaId } = sessionData;
-          setSession(sessionData);
-          const movieData = await fetchMovieById(movieId);
-          setMovie(movieData);
-          const cinemaData = await fetchCinemaById(cinemaId);
-          setCinema(cinemaData);
-        } catch (err) {
-          setErrorMessage(
-            `Sorry, something wrong happend😥 backend msg: ${err}`
-          );
-        } finally {
-          setIsLoading(false);
-          setErrorMessage(null);
-        }
-      } else {
-        setErrorMessage(
-          "Sorry, something wrong happened🥺 useParams get sessionid error"
-        );
-      }
-    };
-    fetchSession();
-  }, [sessionid]);
   return (
     <>
       {isLoading && <Loading />}
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {error && <ErrorMessage message={error} />}
       {movie && cinema && (
         <div>
           <div className="flex flex-col md:flex-row">
@@ -78,7 +42,7 @@ function SessionPage() {
                 <h1 className="font-urbanist text-4xl">{movie.title}</h1>
                 <p className="py-2">
                   <span className="border-gray-600 border-0.05 rounded-md px-1">
-                    {convertMinutesToHours(movie.runtime)}
+                    {formattedMovieDuration}
                   </span>{" "}
                   &nbsp;
                   <span className="border-gray-600 border-0.05 rounded-md px-1">
@@ -129,8 +93,8 @@ function SessionPage() {
             <h2 className="text-2xl font-semibold mb-2">Showtime</h2>
             {session ? (
               <p>
-                {formatDate(session.date)} &nbsp;| &nbsp; {session.time}:00 -{" "}
-                {calculateEndTime(session.time, movie.runtime)}
+                {formattedTime} &nbsp;| &nbsp; {session.time}:00 -{" "}
+                {movieEndTime}
               </p>
             ) : (
               <p>Get session error</p>
