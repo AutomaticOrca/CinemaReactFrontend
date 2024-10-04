@@ -39,5 +39,9 @@ export default {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    styled: false,
+    base: false,
+  },
+  plugins: [require("daisyui")],
 };

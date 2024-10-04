@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Context & hooks
 import { AuthContext } from "./shared/context/auth-context";
@@ -20,6 +15,7 @@ import OrderConfirmPage from "./orders/pages/OrderConfirmPage";
 import CinemasPage from "./cinemas/pages/CinemasPage";
 import MoviePage from "./movies/pages/MoviePage";
 import ProfilePage from "./users/pages/ProfilePage";
+import CheckoutPage from "./orders/pages/CheckoutPage";
 
 function App() {
   const { token, login, logout, userId } = useAuth();
@@ -43,7 +39,11 @@ function App() {
             <Route path="/nowshowing" element={<NowShowingPage />} />
             <Route path="/session/:sessionid" element={<SessionPage />} />
             <Route path="/purchase/:sessionid" element={<PurchasePage />} />
-            <Route path="/order/:orderid" element={<OrderConfirmPage />} />
+            <Route path="/checkout/:sessionid" element={<CheckoutPage />} />
+            <Route
+              path="/orderconfirm/:orderid"
+              element={<OrderConfirmPage />}
+            />
             <Route path="/cinemas" element={<CinemasPage />} />
             <Route path="/movie/:movieid" element={<MoviePage />} />
           </Routes>

@@ -1,23 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-// INTERFACES
-// Define the interface for each ticket type (NORMAL, DISCOUNTED)
-interface Ticket {
-  quantity: number; // The number of tickets of this type
-  unitPrice: number; // The price per ticket of this type
-}
-
-// Define the interface for the current purchase
-interface CurrentPurchase {
-  originUnitPrice: number; // The base price of a normal ticket before any discounts
-  tickets: {
-    NORMAL: Ticket; // Ticket details for normal tickets
-    DISCOUNTED: Ticket; // Ticket details for discounted tickets
-  };
-  status: "PENDING" | "PAID" | "CANCELLED"; // The purchase status, can be one of these three
-  sessionId?: string; // Optional: the ID of the session (movie showtime)
-  userId?: string; // Optional: the ID of the user making the purchase
-}
+import { CurrentPurchase } from "../Models";
 
 // Define the overall state interface for the purchase slice
 interface PurchaseState {

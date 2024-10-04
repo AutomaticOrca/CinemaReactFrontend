@@ -37,3 +37,30 @@ export interface Cinema {
   imgUrl: string; // URL for the cinema's image
   id: string; // Duplicate of _id (can be removed if redundant)
 }
+
+/* --- redux --- */
+export type TicketType = "NORMAL" | "DISCOUNTED";
+
+// Define the interface for each ticket type (NORMAL, DISCOUNTED)
+export interface Ticket {
+  quantity: number; // The number of tickets of this type
+  unitPrice: number; // The price per ticket of this type
+}
+
+// Define the interface for the current purchase
+export interface CurrentPurchase {
+  originUnitPrice: number; // The base price of a normal ticket before any discounts
+  tickets: {
+    [key in TicketType]: Ticket;
+  };
+  status: "PENDING" | "PAID" | "CANCELLED"; // The purchase status, can be one of these three
+  sessionId?: string; // Optional: the ID of the session (movie showtime)
+  userId?: string; // Optional: the ID of the user making the purchase
+}
+
+/* --- API --- */
+export interface ApiTicket {
+  type: "NORMAL" | "DISCOUNTED";
+  number: number;
+  price: number;
+}

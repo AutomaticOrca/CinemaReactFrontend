@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -99,6 +99,14 @@ function AuthPage() {
     }
   };
 
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      setSuccessMessage("You are already logged in. Redireting to homepage...");
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
+    }
+  }, [auth.isLoggedIn, navigate]);
   return (
     <>
       {successMessage && <SuccessMessage message={successMessage} />}

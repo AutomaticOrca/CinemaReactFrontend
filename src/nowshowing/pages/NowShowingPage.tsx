@@ -45,7 +45,6 @@ function NowShowingPage() {
         </div>
       )}
 
-      <div>{JSON.stringify(sessions)}</div>
       {errorMessage && (
         <div className="text-red-500 mb-4">
           <p>🚨{errorMessage}🚨</p>

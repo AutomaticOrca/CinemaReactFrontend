@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import MenuItem from "./MenuItem";
+import TotalItems from "./TotalItems";
 import { AuthContext } from "../../shared/context/auth-context";
 import {
   getCurrentPurchase,
   setSession,
   setUser,
 } from "../../shared/store/purchaseSlice";
+
+import { TicketType } from "../../shared/Models";
 
 interface MenuProps {
   sessionid: string; // Define sessionid as a string type
@@ -24,8 +27,9 @@ const Menu: React.FC<MenuProps> = ({ sessionid }) => {
   };
 
   useEffect(() => {
+    const safeUserId = userId as string; // userId is checked in PurchasePage
     dispatch(setSession(sessionid));
-    dispatch(setUser(userId));
+    dispatch(setUser(safeUserId));
   }, [dispatch, sessionid, userId]);
 
   const { originUnitPrice, tickets, status } = useSelector(getCurrentPurchase);
@@ -40,45 +44,25 @@ const Menu: React.FC<MenuProps> = ({ sessionid }) => {
 
   return (
     <ul className="divide-ypx-2">
-      {Object.keys(tickets)
-        .filter((type) => type !== null && type !== undefined)
-        .map((type, index) => (
-          <MenuItem
-            type={type || "UNKNOWN"}
-            currentQuantity={tickets[type].quantity}
-            unitPrice={tickets[type].unitPrice}
-            key={"t-" + index}
-          />
-        ))}
-      {/* Total Section */}
-      <div className="border-t border-dotted border-gray-600">
-        <div className="flex justify-between mb-2">
-          <span className="text-sm font-semibold">NORMAL</span>
-          <span className="text-sm">
-            ${tickets["NORMAL"].quantity * tickets["NORMAL"].unitPrice}{" "}
-          </span>
-        </div>
-        <div className="flex justify-between mb-4">
-          <span className="text-sm font-semibold">DISCOUNTED</span>
-          <span className="text-sm">
-            ${tickets["DISCOUNTED"].quantity * tickets["DISCOUNTED"].unitPrice}
-          </span>
-        </div>
-        <div className="border-t border-dotted border-gray-600 mb-4"></div>
-        <div className="flex justify-between">
-          <span className="text-lg font-bold text-red-400">TOTAL</span>
-          <span className="text-lg font-bold">${total}</span>
-        </div>
-      </div>
+      {(Object.keys(tickets) as TicketType[]).map((type, index) => (
+        <MenuItem
+          type={type}
+          currentQuantity={tickets[type].quantity}
+          unitPrice={tickets[type].unitPrice}
+          key={"t-" + index}
+        />
+      ))}
+
+      <TotalItems />
 
       {/* Checkout Button */}
       <div className="mt-6 flex justify-end">
         <button
           className={`${
             total > 0
-              ? "bg-rose-400 text-white"
+              ? "bg-ritzLightBlue text-white font-bold"
               : "bg-gray-300 text-gray-700 cursor-not-allowed"
-          } text-lg font-bold font-italiana py-2 px-4`}
+          } text-lg font-bold font-italiana py-2 px-4 rounded-none border-none hover:bg-rose-400`}
           disabled={total <= 0}
           onClick={handleClickCheckout}
         >
@@ -105,7 +89,7 @@ const Menu: React.FC<MenuProps> = ({ sessionid }) => {
           <strong>Tickets:</strong>
         </p>
         <ul>
-          {Object.keys(tickets).map((type) => (
+          {(Object.keys(tickets) as TicketType[]).map((type) => (
             <li key={type}>
               {type}: Quantity - {tickets[type].quantity}, Unit Price -{" "}
               {tickets[type].unitPrice}
