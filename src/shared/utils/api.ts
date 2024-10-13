@@ -1,17 +1,6 @@
 import API_URL from "./apiConfig";
 import axios, { isAxiosError } from "axios";
-
-interface Ticket {
-  type: "NORMAL" | "DISCOUNTED";
-  number: number;
-  price: number;
-}
-
-interface OrderData {
-  sessionId: string;
-  userId: string;
-  tickets: Ticket[];
-}
+import { OrderSent, PurchaseGotById } from "../Models";
 
 const fetchMovieById = async (movieId: string) => {
   try {
@@ -46,7 +35,7 @@ const fetchSessionById = async (sessionId: string) => {
   }
 };
 
-const placeOrder = async ({ sessionId, userId, tickets }: OrderData) => {
+const placeOrder = async ({ sessionId, userId, tickets }: OrderSent) => {
   try {
     const orderData = {
       sessionId,
@@ -66,4 +55,23 @@ const placeOrder = async ({ sessionId, userId, tickets }: OrderData) => {
   }
 };
 
-export { fetchMovieById, fetchCinemaById, fetchSessionById, placeOrder };
+// Function to fetch purchase details by purchase ID
+const fetchPurchaseById = async (
+  purchaseId: string
+): Promise<PurchaseGotById> => {
+  try {
+    const response = await axios.get(`${API_URL}/purchases/${purchaseId}`);
+    return response.data as PurchaseGotById;
+  } catch (error) {
+    console.error("Error fetching purchase details:", error);
+    throw new Error("Failed to fetch purchase details");
+  }
+};
+
+export {
+  fetchMovieById,
+  fetchCinemaById,
+  fetchSessionById,
+  placeOrder,
+  fetchPurchaseById,
+};
