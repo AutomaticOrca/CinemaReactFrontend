@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 // import { AuthContext } from "../../shared/context/auth-context";
 
@@ -11,7 +11,6 @@ interface CommonLayoutProps {
 
 const CommonLayout = ({ children }: CommonLayoutProps) => {
   // const auth = useContext(AuthContext);
-  const location = useLocation();
   // const isNowShowingPage = location.pathname === "/nowshowing";
   return (
     <div className="bg-creamy w-screen min-h-screen flex flex-col justify-between">
