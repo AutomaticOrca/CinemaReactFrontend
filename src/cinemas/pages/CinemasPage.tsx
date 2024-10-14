@@ -1,4 +1,3 @@
-import React from "react";
 function CinemasPage() {
   return <>Cinemas</>;
 }

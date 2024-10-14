@@ -1,0 +1,47 @@
+name: CI/CD Pipeline for TypeScript
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Login to dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t automaticorca/cinema-frontend --build-arg VITE_APP_NODE_ENV='production' --build-arg VITE_APP_SERVER_BASE_URL='http://ec2-13-54-7-53.ap-southeast-2.compute.amazonaws.com:5005/api'  .
+
+      - name: Publish Image to dockerhub
+        run: docker push automaticorca/cinema-frontend:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Stop and remove old container
+        run: |
+          docker stop cinema-frontend-container || true
+          docker rm cinema-frontend-container || true
+      - name: Pull image from docker hub
+        run: docker pull automaticorca/cinema-frontend:latest
+      - name: Run Docker Container
+        run: docker run -d -p 5173:80 --name cinema-frontend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' automaticorca/cinema-frontend

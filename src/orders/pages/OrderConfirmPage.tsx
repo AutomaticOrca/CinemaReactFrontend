@@ -30,7 +30,7 @@ function OrderConfirmPage() {
         setIsLoading(true);
         const data = await fetchPurchaseById(orderid!); // Use orderid from params
         setPurchaseDetails(data);
-      } catch (error) {
+      } catch {
         setErrorMessage("Failed to load purchase details.");
       } finally {
         setIsLoading(false);
@@ -77,7 +77,10 @@ function OrderConfirmPage() {
                   purchaseDetails.sessionTime
                 }`}
               />
-              <OrderInfoSection label="TICKETS" value={formattedTickets} />
+              <OrderInfoSection
+                label="TICKETS"
+                value={formattedTickets ?? "0 tickets"}
+              />
               <OrderInfoSection label="SEATS" value="Unallocated" />
             </div>
           </div>
