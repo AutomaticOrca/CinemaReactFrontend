@@ -24,20 +24,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Stage 2: Serve the app with Nginx
-FROM nginx:1.23-alpine
+RUN npm install -g serve
 
-# Set working directory in nginx
-WORKDIR /usr/share/nginx/html
+EXPOSE 5173
 
-# Remove default Nginx static assets
-RUN rm -rf ./*
-
-# Copy the built app from the build stage
-COPY --from=build /app/dist .
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx server
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
