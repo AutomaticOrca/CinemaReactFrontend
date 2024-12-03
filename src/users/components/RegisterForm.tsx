@@ -31,10 +31,11 @@ const RegisterForm: React.FC<RegisterProps> = ({
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="email" className="label">
             <span className="label-text font-raleway">Email</span>
           </label>
           <input
+            id="email"
             type="email"
             placeholder="Enter your email"
             className="input input-bordered w-full"
@@ -44,10 +45,11 @@ const RegisterForm: React.FC<RegisterProps> = ({
           />
         </div>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="username" className="label">
             <span className="label-text font-raleway">Username</span>
           </label>
           <input
+            id="username"
             type="text"
             placeholder="Enter your username"
             className="input input-bordered w-full"
@@ -57,10 +59,11 @@ const RegisterForm: React.FC<RegisterProps> = ({
           />
         </div>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="password" className="label">
             <span className="label-text font-raleway">Password</span>
           </label>
           <input
+            id="password"
             type="password"
             placeholder="Enter your password"
             className="input input-bordered w-full"
@@ -70,10 +73,11 @@ const RegisterForm: React.FC<RegisterProps> = ({
           />
         </div>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="confirmPassword" className="label">
             <span className="label-text font-raleway">Confirm Password</span>
           </label>
           <input
+            id="confirmPassword"
             type="password"
             placeholder="Confirm your password"
             className="input input-bordered w-full"

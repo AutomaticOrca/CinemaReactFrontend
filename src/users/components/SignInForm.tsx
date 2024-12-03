@@ -25,10 +25,11 @@ const SignInForm: React.FC<SignInProps> = ({
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="email" className="label">
             <span className="label-text font-raleway">Email</span>
           </label>
           <input
+            id="email"
             type="email"
             placeholder="Enter your email"
             className="input input-bordered w-full"
@@ -38,10 +39,11 @@ const SignInForm: React.FC<SignInProps> = ({
           />
         </div>
         <div className="form-control mb-4">
-          <label className="label">
+          <label htmlFor="password" className="label">
             <span className="label-text font-raleway">Password</span>
           </label>
           <input
+            id="password"
             type="password"
             placeholder="Enter your password"
             className="input input-bordered w-full"
